@@ -2,8 +2,20 @@ const posts= require('../data/arraypost')
 
 
 const getposts = (req, res) =>{
-    res.json(posts)
+    const {tag} = req.query;
 
+    if(tag){
+        const filter = posts.filter(post => post.tag.includes(tag));
+
+        if(filter.length>0){
+            res.json(filter)
+        }
+        else{
+            res.status(404).json({error: "Post non trovato"})
+        }
+    }else{
+        res.json(posts)
+    }
 };
 
 const createpost = (req, res) =>{
